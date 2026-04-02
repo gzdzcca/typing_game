@@ -182,8 +182,8 @@ export default function GamePage() {
             </button>
           </div>
 
-          {/* Game canvas area */}
-          <div className="flex-[3] flex items-center justify-center w-full relative">
+          {/* Game canvas area - fill most of the screen */}
+          <div className="flex-[4] flex items-center justify-center w-full relative">
             <GameCanvas
               imageSrc={currentGame.imagePath}
               progress={progress}
@@ -213,18 +213,33 @@ export default function GamePage() {
 
       {/* Celebrating state */}
       {status === "celebrating" && currentGame && (
-        <div className="flex flex-col items-center gap-4 w-full flex-1 relative">
-          <div className="flex-1 flex items-center justify-center w-full relative">
+        <div className="flex flex-col items-center justify-center w-full flex-1 relative gap-4">
+          {/* Revealed image with decorative frame */}
+          <div className="relative p-3 md:p-5 rounded-3xl bg-white/80 shadow-2xl
+                          border-4 border-pink-soft
+                          animate-pop-in">
+            {/* Corner decorations */}
+            <span className="absolute -top-3 -left-3 text-2xl">✦</span>
+            <span className="absolute -top-3 -right-3 text-2xl">♡</span>
+            <span className="absolute -bottom-3 -left-3 text-2xl">♡</span>
+            <span className="absolute -bottom-3 -right-3 text-2xl">✦</span>
             <GameCanvas
               imageSrc={currentGame.imagePath}
               progress={1}
               effectType={effectType}
             />
-            <CelebrationOverlay
-              onNext={handleNext}
-              onRetry={handleRetry}
-            />
           </div>
+
+          {/* Display name under the image */}
+          <p className="text-3xl md:text-4xl font-bold text-pink-bright">
+            {currentGame.displayName}
+          </p>
+
+          {/* Celebration overlay (confetti + buttons) */}
+          <CelebrationOverlay
+            onNext={handleNext}
+            onRetry={handleRetry}
+          />
         </div>
       )}
     </div>

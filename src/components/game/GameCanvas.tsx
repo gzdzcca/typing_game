@@ -27,18 +27,17 @@ export default function GameCanvas({
     (canvas: HTMLCanvasElement, image: HTMLImageElement) => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-      // Calculate CSS size (max 500px, responsive)
-      const containerWidth = Math.min(
-        canvas.parentElement?.clientWidth ?? 500,
-        500,
-      );
+      // Use most of the viewport: 90% width, 55% height
+      const maxW = window.innerWidth * 0.9;
+      const maxH = window.innerHeight * 0.55;
       const aspectRatio = image.naturalWidth / image.naturalHeight;
-      let cssWidth = containerWidth;
-      let cssHeight = containerWidth / aspectRatio;
 
-      if (cssHeight > 500) {
-        cssHeight = 500;
-        cssWidth = 500 * aspectRatio;
+      let cssWidth = maxW;
+      let cssHeight = maxW / aspectRatio;
+
+      if (cssHeight > maxH) {
+        cssHeight = maxH;
+        cssWidth = maxH * aspectRatio;
       }
 
       canvas.style.width = `${cssWidth}px`;

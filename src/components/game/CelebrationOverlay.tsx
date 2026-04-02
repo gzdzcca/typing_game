@@ -61,10 +61,10 @@ export default function CelebrationOverlay({
   }, []);
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-white/30 backdrop-blur-sm rounded-2xl">
+    <div className="flex flex-col items-center gap-4 z-20">
       {/* Celebration text */}
       <p
-        className="text-6xl font-bold text-pink-bright animate-pop-in"
+        className="text-5xl md:text-6xl font-bold text-pink-bright animate-pop-in"
         style={{ textShadow: "0 2px 10px rgba(255, 107, 157, 0.4)" }}
       >
         {celebrationText}
@@ -72,7 +72,7 @@ export default function CelebrationOverlay({
 
       {/* Buttons */}
       {showButtons && (
-        <div className="flex gap-4 mt-8 animate-pop-in">
+        <div className="flex gap-4 animate-pop-in">
           <button
             onClick={onNext}
             className="px-8 py-4 bg-pink-soft text-white font-bold text-2xl rounded-2xl
