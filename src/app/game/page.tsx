@@ -10,6 +10,7 @@ import CelebrationOverlay from "@/components/game/CelebrationOverlay";
 import OnScreenKeyboard from "@/components/game/OnScreenKeyboard";
 import MusicToggle from "@/components/ui/MusicToggle";
 import { useMusic } from "@/hooks/useMusic";
+import { speakLetter } from "@/lib/audio/letter-voice";
 
 const ALL_EFFECTS: RevealEffectType[] = [
   "blur",
@@ -66,6 +67,10 @@ export default function GamePage() {
     setTypedCount(0);
     setEffectType(pickRandomEffect());
     setStatus("playing");
+    // Speak the first letter
+    if (game.word.length > 0) {
+      setTimeout(() => speakLetter(game.word[0], game.typingMode), 300);
+    }
   }, []);
 
   const handleNext = useCallback(() => {
@@ -127,6 +132,9 @@ export default function GamePage() {
       if (newCount >= game.word.length) {
         playCelebration();
         setStatus("celebrating");
+      } else {
+        // Speak the next letter after a short delay
+        setTimeout(() => speakLetter(game.word[newCount], game.typingMode), 200);
       }
     } else {
       if (pressedChar.length === 1) {
@@ -213,20 +221,28 @@ export default function GamePage() {
 
       {/* Celebrating state */}
       {status === "celebrating" && currentGame && (
-        <div className="flex flex-col items-center justify-center w-full flex-1 relative gap-4">
-          {/* Revealed image with decorative frame */}
-          <div className="relative p-3 md:p-5 rounded-3xl bg-white/80 shadow-2xl
+        <div className="flex flex-col items-center justify-center w-full flex-1 relative gap-3 py-4">
+          {/* Revealed image with decorative frame + Gemini icons */}
+          <div className="relative p-3 md:p-5 rounded-3xl bg-white/90 shadow-2xl
                           border-4 border-pink-soft
-                          animate-pop-in">
-            {/* Corner decorations */}
-            <span className="absolute -top-3 -left-3 text-2xl">✦</span>
-            <span className="absolute -top-3 -right-3 text-2xl">♡</span>
-            <span className="absolute -bottom-3 -left-3 text-2xl">♡</span>
-            <span className="absolute -bottom-3 -right-3 text-2xl">✦</span>
-            <GameCanvas
-              imageSrc={currentGame.imagePath}
-              progress={1}
-              effectType={effectType}
+                          animate-pop-in"
+               style={{ maxWidth: "92vw", maxHeight: "65vh" }}>
+            {/* Corner icons - Gemini 3 Pro generated */}
+            <img src="/ui/icon-strawberry.png" alt="" className="absolute -top-5 -left-5 w-10 h-10 md:w-12 md:h-12 animate-float mix-blend-multiply" style={{ animationDelay: "0s" }} />
+            <img src="/ui/icon-star.png" alt="" className="absolute -top-5 -right-5 w-10 h-10 md:w-12 md:h-12 animate-float mix-blend-multiply" style={{ animationDelay: "0.3s" }} />
+            <img src="/ui/icon-heart.png" alt="" className="absolute -bottom-5 -left-5 w-10 h-10 md:w-12 md:h-12 animate-float mix-blend-multiply" style={{ animationDelay: "0.6s" }} />
+            <img src="/ui/icon-strawberry.png" alt="" className="absolute -bottom-5 -right-5 w-10 h-10 md:w-12 md:h-12 animate-float mix-blend-multiply" style={{ animationDelay: "0.9s" }} />
+            {/* Mid-edge icons */}
+            <img src="/ui/icon-heart.png" alt="" className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 md:w-10 md:h-10 animate-float mix-blend-multiply" style={{ animationDelay: "0.4s" }} />
+            <img src="/ui/icon-star.png" alt="" className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-8 md:w-10 md:h-10 animate-float mix-blend-multiply" style={{ animationDelay: "0.7s" }} />
+
+            {/* Full-resolution image (no canvas/effect - just the crisp image) */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={currentGame.imagePath}
+              alt={currentGame.displayName}
+              className="rounded-2xl object-contain"
+              style={{ maxWidth: "85vw", maxHeight: "58vh" }}
             />
           </div>
 

@@ -29,7 +29,7 @@ export async function generateUIImage(
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash-exp",
+      model: "gemini-3-pro-image-preview",
       // @ts-expect-error - image generation config
       generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
     });

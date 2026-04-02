@@ -37,9 +37,10 @@ yarn-error.log*
 public/uploads/*
 !public/uploads/.gitkeep
 
-# generated UI images
+# generated UI images (allow icon files)
 public/ui/*
 !public/ui/.gitkeep
+!public/ui/icon-*.png
 
 # vercel
 .vercel
