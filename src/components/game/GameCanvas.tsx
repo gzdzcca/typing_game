@@ -81,11 +81,14 @@ export default function GameCanvas({
     if (!canvas) return;
 
     const image = new Image();
-    image.crossOrigin = "anonymous";
 
     image.onload = () => {
       setImageLoaded(true);
       setupCanvas(canvas, image);
+    };
+
+    image.onerror = () => {
+      console.error("Failed to load image:", imageSrc);
     };
 
     image.src = imageSrc;
